@@ -5,6 +5,7 @@ mod context;
 mod dependencies;
 pub mod gas_counter;
 mod logic;
+pub mod vm_logic_builder;
 pub mod mocks;
 pub(crate) mod receipt_manager;
 pub mod test_utils;
