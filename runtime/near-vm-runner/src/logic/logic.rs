@@ -174,6 +174,7 @@ impl<'a> VMLogic<'a> {
         &self.logs
     }
 
+<<<<<<< HEAD:runtime/near-vm-runner/src/logic/logic.rs
     #[cfg(test)]
     pub(super) fn gas_counter(&self) -> &GasCounter {
         &self.gas_counter
@@ -191,6 +192,30 @@ impl<'a> VMLogic<'a> {
 
     #[cfg(test)]
     pub(super) fn registers(&mut self) -> &mut super::vmstate::Registers {
+=======
+    /// Returns receipt metadata for created receipts
+    pub fn action_receipts(&self) -> &[(AccountId, ReceiptMetadata)] {
+        &self.receipt_manager.action_receipts
+    }
+
+    pub(crate) fn receipt_manager(&self) -> &ReceiptManager {
+        &self.receipt_manager
+    }
+
+    pub(crate) fn gas_counter(&self) -> &GasCounter {
+        &self.gas_counter
+    }
+
+    pub(crate) fn config(&self) -> &VMConfig {
+        &self.config
+    }
+
+    pub(crate) fn memory(&mut self) -> &mut crate::vmstate::Memory<'a> {
+        &mut self.memory
+    }
+
+    pub(crate) fn registers(&mut self) -> &mut crate::vmstate::Registers {
+>>>>>>> hkn-fuzz:runtime/near-vm-logic/src/logic.rs
         &mut self.registers
     }
 
@@ -224,7 +249,6 @@ impl<'a> VMLogic<'a> {
     // #################
 
     /// Convenience function for testing.
-    #[cfg(test)]
     pub fn wrapped_internal_write_register(&mut self, register_id: u64, data: &[u8]) -> Result<()> {
         self.registers.set(&mut self.gas_counter, &self.config.limit_config, register_id, data)
     }

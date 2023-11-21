@@ -65,6 +65,9 @@ pub mod receipt_manager;
 pub mod state_viewer;
 mod verifier;
 
+// this is to access from fuzz_targets
+pub mod runtime_group_tools;
+
 const EXPECT_ACCOUNT_EXISTS: &str = "account exists, checked above";
 
 /// Contains information to update validators accounts at the first block of a new epoch.
@@ -1515,7 +1518,7 @@ impl Runtime {
 }
 
 #[cfg(test)]
-mod tests {
+pub mod tests {
     use assert_matches::assert_matches;
     use near_crypto::{InMemorySigner, KeyType, PublicKey, Signer};
     use near_primitives::account::AccessKey;
@@ -1595,7 +1598,7 @@ mod tests {
     /* Apply tests */
     /***************/
 
-    fn setup_runtime(
+    pub fn setup_runtime(
         initial_balance: Balance,
         initial_locked: Balance,
         gas_limit: Gas,
