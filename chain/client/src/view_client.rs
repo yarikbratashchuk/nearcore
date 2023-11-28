@@ -11,6 +11,7 @@ use crate::{
 };
 use actix::{Actor, Addr, Handler, SyncArbiter, SyncContext};
 use near_async::messaging::CanSend;
+use near_chain::chain::TX_ROUTING_HEIGHT_HORIZON;
 use near_chain::types::{RuntimeAdapter, Tip};
 use near_chain::{
     get_epoch_block_producers_view, Chain, ChainGenesis, ChainStoreAccess, DoomslugThresholdMode,
@@ -264,7 +265,7 @@ impl ViewClientActor {
         let head = self.chain.head()?;
         let epoch_id = self.epoch_manager.get_epoch_id(&head.last_block_hash)?;
         let epoch_info: Arc<EpochInfo> = self.epoch_manager.get_epoch_info(&epoch_id)?;
-        let num_shards = self.epoch_manager.num_shards(&epoch_id)?;
+        let shard_ids = self.epoch_manager.shard_ids(&epoch_id)?;
         let cur_block_info = self.epoch_manager.get_block_info(&head.last_block_hash)?;
         let next_epoch_start_height =
             self.epoch_manager.get_epoch_start_height(cur_block_info.hash())?
@@ -277,8 +278,9 @@ impl ViewClientActor {
         for block_height in head.height..next_epoch_start_height {
             let bp = epoch_info.sample_block_producer(block_height);
             let bp = epoch_info.get_validator(bp).account_id().clone();
-            let cps: Vec<AccountId> = (0..num_shards)
-                .map(|shard_id| {
+            let cps: Vec<AccountId> = shard_ids
+                .iter()
+                .map(|&shard_id| {
                     let cp = epoch_info.sample_chunk_producer(block_height, shard_id);
                     let cp = epoch_info.get_validator(cp).account_id().clone();
                     cp
@@ -525,7 +527,14 @@ impl ViewClientActor {
                     .epoch_manager
                     .account_id_to_shard_id(&signer_account_id, &head.epoch_id)
                     .map_err(|err| TxStatusError::InternalError(err.to_string()))?;
-                let validator = self.chain.find_validator_for_forwarding(target_shard_id)?;
+                let validator = self
+                    .epoch_manager
+                    .get_chunk_producer(
+                        &head.epoch_id,
+                        head.height + TX_ROUTING_HEIGHT_HORIZON - 1,
+                        target_shard_id,
+                    )
+                    .map_err(|err| TxStatusError::ChainError(err.into()))?;
 
                 self.network_adapter.send(PeerManagerMessageRequest::NetworkRequests(
                     NetworkRequests::TxStatus(validator, signer_account_id, tx_hash),
