@@ -3690,16 +3690,17 @@ name = "near-core-primitives-fuzz"
 version = "1.35.0"
 dependencies = [
  "arbitrary",
+ "borsh 1.0.0",
  "libfuzzer-sys",
+ "near-async",
  "near-chain",
  "near-chunks",
  "near-crypto",
  "near-epoch-manager",
  "near-network",
  "near-primitives",
+ "near-store",
  "near-test-contracts",
- "near-vm-errors",
- "near-vm-logic",
  "near-vm-runner",
  "wasm-smith",
  "wasmprinter",
@@ -3709,6 +3710,7 @@ dependencies = [
 name = "near-crypto"
 version = "1.35.0"
 dependencies = [
+ "arbitrary",
  "blake2",
  "borsh 1.0.0",
  "bs58",
@@ -3735,7 +3737,7 @@ dependencies = [
 
 [[package]]
 name = "near-database-tool"
-version = "0.0.0"
+version = "1.35.0"
 dependencies = [
  "anyhow",
  "borsh 1.0.0",
@@ -3794,7 +3796,7 @@ dependencies = [
 
 [[package]]
 name = "near-epoch-sync-tool"
-version = "0.0.0"
+version = "1.35.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -3834,7 +3836,7 @@ dependencies = [
 
 [[package]]
 name = "near-fork-network"
-version = "0.0.0"
+version = "1.35.0"
 dependencies = [
  "actix",
  "anyhow",
@@ -4334,7 +4336,7 @@ dependencies = [
 
 [[package]]
 name = "near-state-parts-dump-check"
-version = "0.0.0"
+version = "1.35.0"
 dependencies = [
  "actix",
  "actix-web",
@@ -4465,41 +4467,6 @@ dependencies = [
  "thiserror",
  "tracing",
  "wasmparser 0.99.0",
-]
-
-[[package]]
-name = "near-vm-compiler-fuzz"
-version = "1.35.0"
-dependencies = [
- "arbitrary",
- "borsh 0.10.2",
- "ed25519-dalek",
- "libfuzzer-sys",
- "near-account-id",
- "near-crypto",
- "near-fmt",
- "near-o11y",
- "near-primitives",
- "near-primitives-core",
- "near-stdx",
- "near-test-contracts",
- "near-vm",
- "near-vm-compiler",
- "near-vm-engine",
- "near-vm-engine-universal",
- "near-vm-errors",
- "near-vm-logic",
- "near-vm-runner",
- "near-vm-vm",
- "ripemd",
- "serde",
- "serde_json",
- "sha2 0.10.6",
- "sha3",
- "tracing",
- "wasm-smith",
- "wasmprinter",
- "zeropool-bn",
 ]
 
 [[package]]
@@ -4637,7 +4604,7 @@ dependencies = [
 
 [[package]]
 name = "near-vm-test-api"
-version = "0.0.0"
+version = "1.35.0"
 dependencies = [
  "anyhow",
  "cfg-if 1.0.0",
@@ -6105,8 +6072,6 @@ dependencies = [
  "near-network",
  "near-primitives",
  "near-test-contracts",
- "near-vm-errors",
- "near-vm-logic",
  "near-vm-runner",
  "node-runtime",
  "wasm-smith",

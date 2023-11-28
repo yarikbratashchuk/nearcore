@@ -15,7 +15,7 @@ use near_primitives_core::config::ActionCosts;
 use near_store::genesis::GenesisStateApplier;
 use near_store::test_utils::TestTriesBuilder;
 use near_store::ShardTries;
-use node_runtime::{ApplyState, Runtime};
+use crate::{ApplyState, Runtime};
 use random_config::random_config;
 use std::collections::{HashMap, HashSet};
 use std::sync::{Arc, Condvar, Mutex};
