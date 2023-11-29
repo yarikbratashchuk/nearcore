@@ -1,0 +1,28 @@
+[package]
+name = "integration-tests-fuzz"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+# repository.workspace = true
+license.workspace = true
+publish = false
+
+[package.metadata]
+cargo-fuzz = true
+
+[dependencies]
+libfuzzer-sys.workspace = true
+arbitrary.workspace = true
+integration-tests.workspace = true
+near-primitives.workspace = true
+near-test-contracts.workspace = true
+testlib.workspace = true
+rand.workspace = true
+
+[[bin]]
+name = "random_function_call"
+path = "fuzz_targets/random_function_call.rs"
+test = false
+doc = false
+

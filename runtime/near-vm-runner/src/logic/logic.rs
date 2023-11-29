@@ -224,7 +224,6 @@ impl<'a> VMLogic<'a> {
     // #################
 
     /// Convenience function for testing.
-    #[cfg(test)]
     pub fn wrapped_internal_write_register(&mut self, register_id: u64, data: &[u8]) -> Result<()> {
         self.registers.set(&mut self.gas_counter, &self.config.limit_config, register_id, data)
     }
@@ -2953,3 +2952,4 @@ impl std::fmt::Debug for VMOutcome {
         Ok(())
     }
 }
+

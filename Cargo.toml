@@ -37,12 +37,14 @@ members = [
     "core/dyn-configs",
     "core/o11y",
     "core/primitives",
+    "core/primitives/fuzz",
     "core/primitives-core",
     "core/store",
     "genesis-tools/genesis-csv-to-json",
     "genesis-tools/genesis-populate",
     "genesis-tools/keypair-generator",
     "integration-tests",
+    "integration-tests/fuzz",
     "nearcore",
     "neard",
     "runtime/near-vm/test-api",
@@ -56,6 +58,7 @@ members = [
     "runtime/near-vm-runner",
     "runtime/near-vm-runner/fuzz",
     "runtime/runtime",
+    "runtime/runtime/fuzz",
     "runtime/runtime-params-estimator",
     "runtime/runtime-params-estimator/estimator-warehouse",
     "test-utils/actix-test-utils",
@@ -180,7 +183,7 @@ lru = "0.7.2"
 memmap2 = "0.5"
 memoffset = "0.8"
 more-asserts = "0.2"
-near-account-id = { version = "1.0.0-alpha.4", features = ["internal_unstable", "serde", "borsh"] }
+near-account-id = { version = "1.0.0-alpha.4", features = ["internal_unstable", "serde", "borsh", "arbitrary"] }
 near-actix-test-utils = { path = "test-utils/actix-test-utils" }
 near-amend-genesis = { path = "tools/amend-genesis" }
 near-database-tool= { path = "tools/database" }
@@ -368,12 +371,14 @@ stdx = { package = "near-stdx", path = "utils/stdx" }
 
 [profile.dev]
 panic = 'abort'
+lto = 'off'
 
 [profile.release]
 overflow-checks = true
 panic = 'abort'
-lto = "fat"
-codegen-units = 1
+lto = "thin"
+# lto = "fat"
+# codegen-units = 1
 
 # A much faster to compile version of `release`, for development use.
 [profile.dev-release]
